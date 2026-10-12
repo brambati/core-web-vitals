@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Core Web Vitals: site otimizado</title>
+
+  <!-- LCP: a imagem hero começa a baixar ainda no <head> -->
+  <link rel="preload" as="image" href="hero.webp" fetchpriority="high" />
+
+  <!-- LCP: display=swap para a fonte não bloquear o render -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hero">
+    <!-- LCP: fetchpriority="high" · CLS: width e height sempre declarados -->
+    <img
+      src="hero.webp"
+      alt="Montanhas ao entardecer"
+      width="1200"
+      height="600"
+      fetchpriority="high"
+    />
+    <h1>Core Web Vitals <span>do 30 ao 98</span></h1>
+  </header>
+
+  <main>
+    <section class="metas">
+      <article><b>LCP</b><span>≤ 2,5 s</span><small>Largest Contentful Paint</small></article>
+      <article><b>CLS</b><span>≤ 0,1</span><small>Cumulative Layout Shift</small></article>
+      <article><b>INP</b><span>≤ 200 ms</span><small>Interaction to Next Paint</small></article>
+    </section>
+
+    <section class="artigo">
+      <h2>Imagens com tamanho reservado</h2>
+      <p>O browser reserva o espaço desta foto antes de baixá-la, então nada pula quando ela aparece.</p>
+      <!-- CLS: width + height (fora da dobra: loading="lazy") -->
+      <img src="foto.webp" alt="Paisagem" width="800" height="600" loading="lazy" />
+    </section>
+
+    <section>
+      <h2>Embed com aspect-ratio</h2>
+      <!-- CLS: o container reserva 16:9 antes do iframe carregar -->
+      <div class="video-wrapper">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ"
+          title="Vídeo de exemplo"
+          loading="lazy"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </section>
+
+    <section>
+      <h2>Busca com debounce</h2>
+      <!-- INP: a busca só roda 300 ms depois que você para de digitar -->
+      <input type="search" id="search" placeholder="Busque uma técnica..." aria-label="Buscar" />
+      <p class="contador">Buscas executadas: <b id="buscas">0</b></p>
+      <ul id="resultados"></ul>
+    </section>
+
+    <section>
+      <h2>Terceiros sob demanda</h2>
+      <!-- INP: o "mapa" só carrega quando esta área chega perto da tela -->
+      <div id="mapa" class="mapa">O mapa carrega quando você rolar até aqui.</div>
+    </section>
+
+    <section>
+      <h2>Long task dividida</h2>
+      <button id="processar">Processar 20.000 itens</button>
+      <p class="contador" id="status">Clique e tente rolar a página enquanto processa.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p id="vitals">Abra o console para ver LCP, CLS e INP medidos de verdade.</p>
+  </footer>
+
+  <!-- módulos já são adiados (defer) por padrão -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>
